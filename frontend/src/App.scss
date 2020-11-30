@@ -1,0 +1,11 @@
+@import '~bootstrap/scss/bootstrap';
+.row {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+div[class*='col'],
+.container,
+.container-fluid {
+  padding-left: 10px;
+  padding-right: 10px;
+}
