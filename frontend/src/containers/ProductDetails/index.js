@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Button, Card, Col, Row } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProductDetails } from '../../redux/actions';
+import { addToCart, getProductDetails } from '../../redux/actions';
 import { LoadingBox, MessageBox } from '../../components';
 import { useState } from 'react';
 
@@ -16,8 +16,8 @@ const ProductDetails = (props) => {
   }, [dispatch, productId]);
 
   const handleAddToCart = () => {
-    console.log('abc');
-    props.history.push(`/cart/${productId}?qty=${qty}`);
+    dispatch(addToCart(productId, qty));
+    props.history.push('/cart');
   };
 
   return (
