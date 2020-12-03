@@ -52,3 +52,12 @@ export const removeToCart = (productId) => async (dispatch) => {
 
   dispatch({ type: cartTypes.CART_REMOVE_ITEM_SUCCESS, payload: cartItems });
 };
+
+export const saveShippingAddress = (data) => (dispatch) => {
+  localStorage.setItem('shippingAddress', JSON.stringify(data));
+  dispatch({ type: cartTypes.CART_SHIPPING_ADDRESS, payload: data });
+};
+
+export const savePaymentMethod = (data) => (dispatch) => {
+  dispatch({ type: cartTypes.CART_PAYMENT_METHOD, payload: data });
+};

@@ -11,9 +11,6 @@ const Products = () => {
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
-  const handleAddToCart = (productId) => {
-    console.log(productId);
-  };
   return (
     <>
       <Row>

@@ -18,3 +18,27 @@ div[class*='col'],
   padding: 0px 5px;
   border-radius: 10px;
 }
+.checkout-steps {
+  padding-bottom: 30px;
+  > div {
+    border-bottom: 3px solid #c0c0c0;
+    color: #c0c0c0;
+    flex: 1;
+    padding: 15px;
+    font-weight: bold;
+    &.active {
+      border-bottom-color: #f08000;
+      color: #f08000;
+    }
+  }
+}
+.form-check {
+  margin-bottom: 5px;
+  .form-check-input {
+    cursor: pointer;
+  }
+  .form-check-label {
+    cursor: pointer;
+    width: 100%;
+  }
+}

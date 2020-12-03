@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { userSignin } from '../../redux/actions';
+import { userRegister } from '../../redux/actions';
 import { LoadingBox, MessageBox } from '../../components';
 
-const Signin = (props) => {
+const Register = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [name, setName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  console.log(props);
   const redirect = props.location.search
     ? props.location.search.split('=')[1]
     : '/';
@@ -25,16 +27,32 @@ const Signin = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(userSignin(email, password));
+    if (password !== confirmPassword) {
+      alert('Password and confirm password are not match!');
+    } else {
+      dispatch(userRegister(name, email, password));
+    }
   };
 
   return (
     <div className="row justify-content-center">
       <div className="col-6">
-        <h3 className="text-center">Sign In</h3>
+        <h3 className="text-center">Register</h3>
         {loading && <LoadingBox />}
         {error && <MessageBox variant="danger">{error}</MessageBox>}
         <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">Name address</label>
+            <input
+              type="text"
+              id="name"
+              placeholder="Enter name"
+              className="form-control"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
           <div className="form-group">
             <label htmlFor="email">Email address</label>
             <input
@@ -59,15 +77,25 @@ const Signin = (props) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Enter confirm password"
+              className="form-control"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
           <button className="btn btn-primary mb-3 w-100" type="submit">
-            Submit
+            Register
           </button>
           <br />
           <div>
-            New customer?{' '}
-            <Link to={`/register?redirect=${redirect}`}>
-              Create your account
-            </Link>
+            Already have an account?{' '}
+            <Link to={`/signin?redirect=${redirect}`}>Sign In</Link>
           </div>
         </form>
       </div>
@@ -75,4 +103,4 @@ const Signin = (props) => {
   );
 };
 
-export default Signin;
+export default Register;

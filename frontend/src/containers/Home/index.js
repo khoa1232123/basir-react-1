@@ -18,21 +18,19 @@ const Home = () => {
           <h3>Home</h3>
         </Col>
       </Row>
-      <Row>
-        {loading ? (
-          <LoadingBox />
-        ) : error ? (
-          <MessageBox variant="danger">{error}</MessageBox>
-        ) : (
-          <Row>
-            {products.map((product, index) => (
-              <Col lg="3" key={index} className="mb-4">
-                <ProductItem product={product} />
-              </Col>
-            ))}
-          </Row>
-        )}
-      </Row>
+      {loading ? (
+        <LoadingBox />
+      ) : error ? (
+        <MessageBox variant="danger">{error}</MessageBox>
+      ) : (
+        <Row>
+          {products.map((product, index) => (
+            <Col lg="3" key={index} className="mb-4">
+              <ProductItem product={product} />
+            </Col>
+          ))}
+        </Row>
+      )}
     </>
   );
 };

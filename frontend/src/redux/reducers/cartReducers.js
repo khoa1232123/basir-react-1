@@ -5,6 +5,10 @@ const initialState = {
     ? JSON.parse(localStorage.getItem('cart'))
     : [],
   loading: false,
+  shippingAddress: localStorage.getItem('shippingAddress')
+    ? JSON.parse(localStorage.getItem('shippingAddress'))
+    : {},
+  paymentMethod: 'paypal',
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -36,6 +40,16 @@ export default (state = initialState, { type, payload }) => {
         cartItems: payload,
       };
 
+    case cartTypes.CART_SHIPPING_ADDRESS:
+      return {
+        ...state,
+        shippingAddress: payload,
+      };
+    case cartTypes.CART_PAYMENT_METHOD:
+      return {
+        ...state,
+        paymentMethod: payload,
+      };
     default:
       return state;
   }
