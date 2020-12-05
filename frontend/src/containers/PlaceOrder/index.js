@@ -1,18 +1,30 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { CheckoutSteps } from '../../components';
+import { CheckoutSteps, LoadingBox, MessageBox } from '../../components';
+import { createOrder } from '../../redux/actions';
 
-const PlaceOrder = () => {
-  const { shippingAddress, paymentMethod, cartItems, ...cart } = useSelector(
-    (state) => state.cart
+const PlaceOrder = (props) => {
+  const cart = useSelector((state) => state.cart);
+  const { shippingAddress, paymentMethod, cartItems } = cart;
+  const { loading, error, orderList, success } = useSelector(
+    (state) => state.order
   );
+  console.log(orderList);
+  useEffect(() => {
+    if (success) {
+      props.history.push(`/order/${orderList._id}`);
+    }
+  }, [orderList._id, props.history, success]);
+  const dispatch = useDispatch();
   const toPrice = (num) => Number(num.toFixed(2));
   cart.itemsPrice = toPrice(cartItems.reduce((a, b) => a + b.qty * b.price, 0));
   cart.shippingPrice = cart.itemsPrice > 100 ? toPrice(0) : toPrice(10);
   cart.taxPrice = toPrice(0.1 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
-  const handlePlaceOrder = () => {};
+  const handlePlaceOrder = () => {
+    dispatch(createOrder({ ...cart, orderItems: cartItems }));
+  };
   return (
     <div>
       <CheckoutSteps step1 step2 step3 step4 />
@@ -88,6 +100,8 @@ const PlaceOrder = () => {
                 <button className="btn btn-primary" onClick={handlePlaceOrder}>
                   Place Order
                 </button>
+                {loading && <LoadingBox />}
+                {error && <MessageBox variant="danger">{error}</MessageBox>}
               </div>
             </div>
           </div>
