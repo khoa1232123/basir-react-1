@@ -49,3 +49,49 @@ export const userRegister = (name, email, password) => async (dispatch) => {
     });
   }
 };
+
+export const getDetailsUser = () => async (dispatch, getState) => {
+  dispatch({ type: userTypes.USER_DETAILS_REQUEST });
+  try {
+    const {
+      user: { userInfo },
+    } = getState();
+    const { data } = await Axios.get(`/api/users/getuserdetails`, {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    });
+    console.log(data);
+    dispatch({ type: userTypes.USER_DETAILS_SUCCESS, payload: data });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.datmessage
+        : error.message;
+    dispatch({ type: userTypes.USER_DETAILS_FAILURE, payload: message });
+  }
+};
+
+export const updateUserProfile = (user) => async (dispatch, getState) => {
+  dispatch({ type: userTypes.USER_UPDATE_REQUEST });
+  try {
+    const {
+      user: { userInfo },
+    } = getState();
+    const { data } = await Axios.post(`/api/users/update`, user, {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    });
+    console.log(data);
+    dispatch({ type: userTypes.USER_UPDATE_SUCCESS, payload: data });
+    dispatch({ type: userTypes.USER_SIGNIN_SUCCESS, payload: data });
+    localStorage.setItem('userInfo', JSON.stringify(data));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.datmessage
+        : error.message;
+    dispatch({ type: userTypes.USER_DETAILS_FAILURE, payload: message });
+  }
+};

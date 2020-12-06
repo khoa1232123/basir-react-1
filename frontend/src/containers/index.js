@@ -6,3 +6,6 @@ export { default as Signin } from './Signin';
 export { default as ShippingAddress } from './ShippingAddress';
 export { default as PaymentMethod } from './PaymentMethod';
 export { default as PlaceOrder } from './PlaceOrder';
+export { default as Order } from './Order';
+export { default as OrderHistory } from './OrderHistory';
+export { default as Profile } from './Profile';

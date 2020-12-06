@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { getCart, userSignout } from '../../../redux/actions';
 import './style.css';
 
-const Menu = () => {
+const Menu = (props) => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
   const { userInfo } = user;
@@ -48,6 +48,12 @@ const Menu = () => {
                 {userInfo.name}
               </Link>
               <div className="dropdown-menu">
+                <Link className="dropdown-item" to="/profile">
+                  Profile
+                </Link>
+                <Link className="dropdown-item" to="/orderhistory">
+                  Orders
+                </Link>
                 <Link className="dropdown-item" to="#" onClick={handleSignout}>
                   Sign out
                 </Link>
@@ -59,6 +65,32 @@ const Menu = () => {
             </Link>
           )}
         </li>
+        {userInfo && userInfo.isAdmin && (
+          <li className="nav-item">
+            <div className="dropdown">
+              <Link to="#" className="nav-link dropdown-toggle">
+                Admin
+              </Link>
+              <div className="dropdown-menu">
+                <Link className="dropdown-item" to="/dashboard">
+                  Dashboard
+                </Link>
+                <Link className="dropdown-item" to="/productlist">
+                  Products
+                </Link>
+                <Link className="dropdown-item" to="/orderlist">
+                  Orders
+                </Link>
+                <Link className="dropdown-item" to="/userlist">
+                  Users
+                </Link>
+                <Link className="dropdown-item" to="#" onClick={handleSignout}>
+                  Sign out
+                </Link>
+              </div>
+            </div>
+          </li>
+        )}
       </ul>
     </>
   );

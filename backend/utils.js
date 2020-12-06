@@ -16,14 +16,13 @@ export const generateToken = (user) => {
 };
 export const isAuth = (req, res, next) => {
   const authorization = req.headers.authorization;
-  console.log(authorization);
   if (authorization) {
     const token = authorization.slice(7, authorization.length); // Bearer XXXXXX
-    console.log(token);
     jwt.verify(
       token,
       process.env.JWT_SECRET || 'nothingsecret',
       (err, decode) => {
+        console.log(decode);
         if (err) {
           res.status(401).send({ message: 'Invalid Token' });
         } else {
@@ -34,5 +33,13 @@ export const isAuth = (req, res, next) => {
     );
   } else {
     res.status(401).send({ message: 'No Token' });
+  }
+};
+
+export const isAdmin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next();
+  } else {
+    res.status(401).send({ message: 'Invalid Admin Token' });
   }
 };

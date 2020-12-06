@@ -7,15 +7,15 @@ import { createOrder } from '../../redux/actions';
 const PlaceOrder = (props) => {
   const cart = useSelector((state) => state.cart);
   const { shippingAddress, paymentMethod, cartItems } = cart;
-  const { loading, error, orderList, success } = useSelector(
+  const { loading, error, orderD, success } = useSelector(
     (state) => state.order
   );
-  console.log(orderList);
+  console.log(orderD);
   useEffect(() => {
-    if (success) {
-      props.history.push(`/order/${orderList._id}`);
+    if (success && orderD) {
+      props.history.push(`/order/${orderD._id}`);
     }
-  }, [orderList._id, props.history, success]);
+  }, [orderD, props.history, success]);
   const dispatch = useDispatch();
   const toPrice = (num) => Number(num.toFixed(2));
   cart.itemsPrice = toPrice(cartItems.reduce((a, b) => a + b.qty * b.price, 0));
